@@ -17,11 +17,19 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  if (!users[req.params.id]) {
-    res.send(404, "Este usuario no existe");
-    return;
-  }
-  res.send(users[req.params.id]);
+  const id = req.params.id;
+  fs.readFile(usersPath, "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+      res.send(err);
+      return;
+    }
+    const dataObj = JSON.parse(data);
+    const findData = dataObj.find((item) => {
+      return (item._id = id);
+    });
+    res.send(findData);
+  });
 });
 
 module.exports = router;
