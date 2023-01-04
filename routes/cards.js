@@ -1,10 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const fs = require("fs");
 const path = require("path");
-const cards = require("../data/cards.json");
+
+const cardsPath = path.join("data", "cards.json");
 
 router.get("/", (req, res) => {
-  res.send(cards);
+  fs.readFile(cardsPath, "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+      res.send(err);
+      return;
+    }
+    res.send(data);
+  });
 });
 
 module.exports = router;

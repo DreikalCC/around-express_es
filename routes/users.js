@@ -3,17 +3,16 @@ const router = express.Router();
 const fs = require("fs");
 const path = require("path");
 
-const usersPath = path.parse(__dirname);
-const users = require("../data/users.json");
+const usersPath = path.join("data", "users.json");
 
 router.get("/", (req, res) => {
-  fs.readFile("./data/users.json", "utf8", (err, data) => {
+  fs.readFile(usersPath, "utf8", (err, data) => {
     if (err) {
       console.error(err);
       res.send(err);
       return;
     }
-    res.send(usersPath);
+    res.send(data);
   });
 });
 
