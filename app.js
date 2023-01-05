@@ -18,3 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/users", usersRoute);
 app.use("/cards", cardsRoute);
+app.use("/", (req, res) => {
+  res
+    .status(404)
+    .send({ status: false, message: "Requested resource not found" });
+});

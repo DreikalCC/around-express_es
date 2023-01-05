@@ -28,6 +28,10 @@ router.get("/:id", (req, res) => {
     const findData = dataObj.find((item) => {
       return item._id === id;
     });
+    if (!findData) {
+      res.status(404).send({ status: false, message: "user not found" });
+      return;
+    }
     res.send(findData);
   });
 });
