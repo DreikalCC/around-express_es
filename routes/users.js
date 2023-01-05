@@ -26,7 +26,7 @@ router.get("/:id", (req, res) => {
     }
     const dataObj = JSON.parse(data);
     const findData = dataObj.find((item) => {
-      return (item._id = id);
+      return item._id === id;
     });
     res.send(findData);
   });
