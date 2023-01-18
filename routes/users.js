@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const path = require("path");
+const User = require("../models/users");
 
 const usersPath = path.join("data", "users.json");
 
@@ -34,6 +35,17 @@ router.get("/:id", (req, res) => {
     }
     res.send(findData);
   });
+});
+
+router.post("/", (req, res) => {
+  const { name, about, avatar } = req.body;
+  User.create({ name, about, avatar })
+    .then((user) => {
+      res.send({ data: user });
+    })
+    .catch((err) => {
+      res.status(500).send({ message: "Error" });
+    });
 });
 
 module.exports = router;

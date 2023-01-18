@@ -3,9 +3,16 @@ const app = express();
 const { PORT = 3000, BASE_PATH } = process.env;
 const bodyParser = require("body-parser");
 const path = require("path");
+const mongoose = require("mongoose");
 
 const usersRoute = require("./routes/users");
 const cardsRoute = require("./routes/cards");
+
+mongoose.connect("mongodb://localhost:27017/aroundb", {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+});
 
 app.listen(PORT, () => {
   console.log(`App listening to port ${PORT}`);
