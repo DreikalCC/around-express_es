@@ -4,48 +4,43 @@ const fs = require("fs");
 const path = require("path");
 const User = require("../models/users");
 
-const usersPath = path.join("data", "users.json");
-
 router.get("/", (req, res) => {
-  fs.readFile(usersPath, "utf8", (err, data) => {
-    if (err) {
-      console.error(err);
-      res.send(err);
-      return;
-    }
-    res.send(data);
-  });
+  User.find({})
+    .orFail()
+    .then((data) => res.send(data))
+    .catch((err) =>
+      res.status(500).send({ message: "Error", err, body: req.body })
+    );
 });
 
 router.get("/:id", (req, res) => {
-  const id = req.params.id;
-  fs.readFile(usersPath, "utf8", (err, data) => {
-    if (err) {
-      console.error(err);
-      res.send(err);
-      return;
-    }
-    const dataObj = JSON.parse(data);
-    const findData = dataObj.find((item) => {
-      return item._id === id;
-    });
-    if (!findData) {
-      res.status(404).send({ status: false, message: "user not found" });
-      return;
-    }
-    res.send(findData);
-  });
+  User.findById(req.params.id)
+    .orFail()
+    .then((user) => res.send({ data: user }))
+    .catch((err) =>
+      res.status(500).send({ message: "Error", err, body: req.body })
+    );
 });
 
 router.post("/", (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
+    .orFail()
     .then((user) => {
       res.send({ data: user });
     })
     .catch((err) => {
-      res.status(500).send({ message: "Error" });
+      res.status(500).send({ message: "Error", err, body: req.body });
     });
+});
+
+router.patch("/:id", (req, res) => {
+  User.findById(req.user._id)
+    .orFail()
+    .then((user) => {})
+    .catch((err) =>
+      res.status(500).send({ message: "Error", err, body: req.body })
+    );
 });
 
 module.exports = router;
