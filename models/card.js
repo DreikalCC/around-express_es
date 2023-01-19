@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const User = require("./users").schema;
+const User = require("./user").schema;
 
 const cardSchema = new mongoose.Schema({
   name: { type: String, required: true, minlength: 2, maxlength: 30 },
@@ -7,8 +7,8 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: [true, "Dirección URL requerida"],
   },
-  owner: User,
-  likes: [{ users: "", ObjectId: "", default: "" }],
+  owner: { type: [mongoose.Schema.Types.ObjectId], required: true },
+  likes: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   createdAt: Date,
 });
 

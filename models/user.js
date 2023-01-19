@@ -11,14 +11,6 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     required: [true, "Dirección URL requerida"],
-    validate: [
-      {
-        message: "Must be a Valid URL",
-        protocols: ["http", "https", "www."],
-        require_tld: true,
-        require_protocol: true,
-      },
-    ],
   },
 });
 
