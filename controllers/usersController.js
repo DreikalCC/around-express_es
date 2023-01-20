@@ -10,7 +10,7 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.getSpecificUser = (req, res) => {
-  const { userId } = req.params._id;
+  const { userId } = req.params.id;
   User.findById(userId)
     .orFail()
     .then((data) => {
@@ -18,7 +18,7 @@ module.exports.getSpecificUser = (req, res) => {
       const user = users.find((item) => item.userId === userId);
 
       if (user) {
-        res.send({ message: "se encontro el usuario" });
+        res.send({ message: "existe tal usuario" });
         return;
       }
 
