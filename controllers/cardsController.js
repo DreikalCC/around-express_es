@@ -11,7 +11,7 @@ module.exports.getCards = (req, res) => {
       res.send(data);
     })
     .catch((err) =>
-      res.status(500).send({ message: "Error", err, body: req.body })
+      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
     );
 };
 
@@ -47,7 +47,7 @@ module.exports.deleteCard = (req, res) => {
       res.status(404).send({ message: "No existe tal tarjeta" });
     })
     .catch((err) =>
-      res.status(500).send({ message: "Error", err, body: req.body })
+      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
     );
 };
 
@@ -74,7 +74,7 @@ module.exports.likeCard = (req, res) =>
       res.status(404).send({ message: "No existe tal tarjeta" });
     })
     .catch((err) =>
-      res.status(500).send({ message: "Error", err, body: req.body })
+      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
     );
 
 module.exports.dislikeCard = (req, res) =>
@@ -100,5 +100,5 @@ module.exports.dislikeCard = (req, res) =>
       res.status(404).send({ message: "No existe tal tarjeta" });
     })
     .catch((err) =>
-      res.status(500).send({ message: "Error", err, body: req.body })
+      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
     );

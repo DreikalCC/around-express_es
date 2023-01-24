@@ -14,10 +14,10 @@ router.get("/", getCards);
 
 router.post("/", postCard);
 
-router.delete("/:id", deleteCard);
+router.delete("/:cardId", deleteCard);
 
-router.put("/:id", likeCard);
+router.put("/:cardId/likes", likeCard);
 
-router.delete("/:id", dislikeCard);
+router.delete("/:cardId/likes", dislikeCard);
 
 module.exports = router;

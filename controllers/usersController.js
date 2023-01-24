@@ -9,13 +9,13 @@ module.exports.getUsers = (req, res) => {
     })
     .then((data) => res.send({ status: true, data }))
     .catch((err) =>
-      res.status(500).send({ message: "Error", err, body: req.body })
+      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
     );
 };
 
 module.exports.getSpecificUser = (req, res) => {
   const { userId } = req.params.id;
-  User.findById(userId)
+  User.findById(req.params.id)
     .orFail(() => {
       const error = new Error("No se ha encontrado ningún usuario");
       error.statusCode = 404;
@@ -32,9 +32,7 @@ module.exports.getSpecificUser = (req, res) => {
 
       res.status(404).send({ message: "No existe tal usuario" });
     })
-    .catch((err) =>
-      res.status(500).send({ message: "Error", err, body: req.body })
-    );
+    .catch((err) => res.send({ message: "Error", err, body: req.body }));
 };
 
 module.exports.createUser = (req, res) => {
@@ -57,7 +55,7 @@ module.exports.updateProfile = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((res) => {
+    .then(() => {
       User.findById(userId);
     })
     .then((data) => {
@@ -72,7 +70,7 @@ module.exports.updateProfile = (req, res) => {
       res.status(404).send({ message: "No existe tal usuario" });
     })
     .catch((err) =>
-      res.status(500).send({ message: "Error", err, body: req.body })
+      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
     );
 };
 
@@ -85,7 +83,7 @@ module.exports.updateAvatar = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((res) => {
+    .then(() => {
       User.findById(userId);
     })
     .then((data) => {
@@ -100,6 +98,6 @@ module.exports.updateAvatar = (req, res) => {
       res.status(404).send({ message: "No existe tal usuario" });
     })
     .catch((err) =>
-      res.status(500).send({ message: "Error", err, body: req.body })
+      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
     );
 };

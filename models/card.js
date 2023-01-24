@@ -7,12 +7,13 @@ const cardSchema = new mongoose.Schema({
   link: {
     type: String,
     required: [true, "Dirección URL requerida"],
-    validate: validator.isURL({
-      message: "debe ser una RUL valida",
-      protocols: ["http", "https", "www."],
-      require_tld: true,
-      require_protocol: true,
-    }),
+    validate: () =>
+      validator.isURL({
+        message: "debe ser una RUL valida",
+        protocols: ["http", "https", "www."],
+        require_tld: true,
+        require_protocol: true,
+      }),
   },
   owner: {
     type: [mongoose.Schema.Types.ObjectId],
