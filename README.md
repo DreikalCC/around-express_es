@@ -1,17 +1,19 @@
 # Around the U.S. Back End
 
-En este proyecto iniciamos la programación Back-End y creamos un servidor el cual contiene archivos .json con usuarios y tarjetas para simular base de datos.
-Para este proyecto utilizamos node.js para la creación del servidor, con express implementamos un servidor que se recarga cada ves que guardamos cambios en el codigo.
+En este proyecto continuamos la programación Back-End y creamos una base de datos con la ayuda de mongoDB.
+En la base de datos se crean y almacenan usuarios y tarjetas
 Al no tener el Front-End integrado, se utilizó Thunder Client para hacer solicitudes al servidor y corroborar que el codigo entrega los datos solicitados.
 
 ## Directories
 
-`/data` — contiene los archivos JSON que simulan la base de datos.
+`/models` — contiene los modelos de las tarjetas y de los usuarios por medio de un Schema de mongoose.
 
-`/routes` — archivos routers.
+`/controllers` — contiene los controladores de las rutas de la pagina
+
+`/routes` — almacena las rutas de la pagina.
 
 ## Running the Project
 
-`npm run start` — inicializa el servidor.
+`$ "C:/Program Files/MongoDB/Server/6.0/bin/mongod.exe" --dbpath="d:/data/db"` — se utiliza para inicilizar la base de datos.
 
 `npm run dev` — inicializa el servidor con capacidad de auto cargado.
