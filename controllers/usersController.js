@@ -4,12 +4,12 @@ module.exports.getUsers = (req, res) => {
   User.find({})
     .orFail(() => {
       const error = new Error("No se ha encontrado ningún usuario");
-      error.statusCode = 404;
+      error.status = 404;
       throw error;
     })
     .then((data) => res.send({ status: true, data }))
     .catch((err) =>
-      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
+      res.status(err.status).send({ message: "Error", err, body: req.body })
     );
 };
 
@@ -18,7 +18,7 @@ module.exports.getSpecificUser = (req, res) => {
   User.findById(req.params.id)
     .orFail(() => {
       const error = new Error("No se ha encontrado ningún usuario");
-      error.statusCode = 404;
+      error.status = 404;
       throw error;
     })
     .then((data) => {
@@ -32,7 +32,9 @@ module.exports.getSpecificUser = (req, res) => {
 
       res.status(404).send({ message: "No existe tal usuario" });
     })
-    .catch((err) => res.send({ message: "Error", err, body: req.body }));
+    .catch((err) =>
+      res.status(500).send({ message: "error", err, body: req.body })
+    );
 };
 
 module.exports.createUser = (req, res) => {
@@ -52,7 +54,7 @@ module.exports.updateProfile = (req, res) => {
   User.updateOne({ _id: userId }, { name, about })
     .orFail(() => {
       const error = new Error("No se ha encontrado ningún usuario");
-      error.statusCode = 404;
+      error.status = 404;
       throw error;
     })
     .then(() => {
@@ -70,7 +72,7 @@ module.exports.updateProfile = (req, res) => {
       res.status(404).send({ message: "No existe tal usuario" });
     })
     .catch((err) =>
-      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
+      res.status(err.status).send({ message: "Error", err, body: req.body })
     );
 };
 
@@ -80,7 +82,7 @@ module.exports.updateAvatar = (req, res) => {
   User.updateOne({ _id: userId }, { avatar })
     .orFail(() => {
       const error = new Error("No se ha encontrado ningún usuario");
-      error.statusCode = 404;
+      error.status = 404;
       throw error;
     })
     .then(() => {
@@ -98,6 +100,6 @@ module.exports.updateAvatar = (req, res) => {
       res.status(404).send({ message: "No existe tal usuario" });
     })
     .catch((err) =>
-      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
+      res.status(err.status).send({ message: "Error", err, body: req.body })
     );
 };
