@@ -8,11 +8,15 @@ module.exports.getCards = (req, res) => {
       throw error;
     })
     .then((data) => {
-      res.send(data);
+      res.send({ status: true, data: data });
     })
-    .catch((err) =>
-      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
-    );
+    .catch((err) => {
+      if (err.status === 404) {
+        res.status(404).send({ message: "no existe tal tarjeta" });
+      } else {
+        res.status(500).send({ message: "Error", err, body: req.body });
+      }
+    });
 };
 
 module.exports.postCard = (req, res) => {
@@ -36,19 +40,15 @@ module.exports.deleteCard = (req, res) => {
       throw error;
     })
     .then((data) => {
-      const cards = JSON.parse(data);
-      const card = cards.find((item) => item.cardId === cardId);
-
-      if (card) {
-        res.send(card);
-        return;
-      }
-
-      res.status(404).send({ message: "No existe tal tarjeta" });
+      res.send({ status: true, data: data });
     })
-    .catch((err) =>
-      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
-    );
+    .catch((err) => {
+      if (err.status === 404) {
+        res.status(404).send({ message: "no existe tal tarjeta" });
+      } else {
+        res.status(500).send({ message: "Error", err, body: req.body });
+      }
+    });
 };
 
 module.exports.likeCard = (req, res) =>
@@ -63,19 +63,15 @@ module.exports.likeCard = (req, res) =>
       throw error;
     })
     .then((data) => {
-      const cards = JSON.parse(data);
-      const card = cards.find((item) => item.cardId === cardId);
-
-      if (card) {
-        res.send(card);
-        return;
-      }
-
-      res.status(404).send({ message: "No existe tal tarjeta" });
+      res.send({ status: true, data: data });
     })
-    .catch((err) =>
-      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
-    );
+    .catch((err) => {
+      if (err.status === 404) {
+        res.status(404).send({ message: "no existe tal tarjeta" });
+      } else {
+        res.status(500).send({ message: "Error", err, body: req.body });
+      }
+    });
 
 module.exports.dislikeCard = (req, res) =>
   Card.findByIdAndUpdate(
@@ -89,16 +85,12 @@ module.exports.dislikeCard = (req, res) =>
       throw error;
     })
     .then((data) => {
-      const cards = JSON.parse(data);
-      const card = cards.find((item) => item.cardId === cardId);
-
-      if (card) {
-        res.send(card);
-        return;
-      }
-
-      res.status(404).send({ message: "No existe tal tarjeta" });
+      res.send({ status: true, data: data });
     })
-    .catch((err) =>
-      res.status(err.statusCode).send({ message: "Error", err, body: req.body })
-    );
+    .catch((err) => {
+      if (err.status === 404) {
+        res.status(404).send({ message: "no existe tal tarjeta" });
+      } else {
+        res.status(500).send({ message: "Error", err, body: req.body });
+      }
+    });

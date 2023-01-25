@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Dirección URL requerida"],
     validate: () =>
-      validator.isURL({
+      validator.isURL(this.avatar, {
         message: "debe ser una RUL valida",
         protocols: ["http", "https", "www."],
         require_tld: true,

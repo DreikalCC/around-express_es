@@ -7,14 +7,19 @@ module.exports.getUsers = (req, res) => {
       error.status = 404;
       throw error;
     })
-    .then((data) => res.send({ status: true, data }))
-    .catch((err) =>
-      res.status(err.status).send({ message: "Error", err, body: req.body })
-    );
+    .then((data) => {
+      res.send({ status: true, data: data });
+    })
+    .catch((err) => {
+      if (err.status === 404) {
+        res.status(404).send({ message: "no existe tal usuario" });
+      } else {
+        res.status(500).send({ message: "Error", err, body: req.body });
+      }
+    });
 };
 
 module.exports.getSpecificUser = (req, res) => {
-  const { userId } = req.params.id;
   User.findById(req.params.id)
     .orFail(() => {
       const error = new Error("No se ha encontrado ningún usuario");
@@ -22,19 +27,15 @@ module.exports.getSpecificUser = (req, res) => {
       throw error;
     })
     .then((data) => {
-      const users = JSON.parse(data);
-      const user = users.find((item) => item.userId === userId);
-
-      if (user) {
-        res.send({ status: true, data: user });
-        return;
-      }
-
-      res.status(404).send({ message: "No existe tal usuario" });
+      res.send({ status: true, data: data });
     })
-    .catch((err) =>
-      res.status(500).send({ message: "error", err, body: req.body })
-    );
+    .catch((err) => {
+      if (err.status === 404) {
+        res.status(404).send({ message: "no existe tal usuario" });
+      } else {
+        res.status(500).send({ message: "Error", err, body: req.body });
+      }
+    });
 };
 
 module.exports.createUser = (req, res) => {
@@ -57,23 +58,16 @@ module.exports.updateProfile = (req, res) => {
       error.status = 404;
       throw error;
     })
-    .then(() => {
-      User.findById(userId);
-    })
     .then((data) => {
-      const users = JSON.parse(data);
-      const user = users.find((item) => item.userId === userId);
-
-      if (user) {
-        res.send({ status: true, data: user });
-        return;
-      }
-
-      res.status(404).send({ message: "No existe tal usuario" });
+      res.send({ status: true, data: data });
     })
-    .catch((err) =>
-      res.status(err.status).send({ message: "Error", err, body: req.body })
-    );
+    .catch((err) => {
+      if (err.status === 404) {
+        res.status(404).send({ message: "no existe tal usuario" });
+      } else {
+        res.status(500).send({ message: "Error", err, body: req.body });
+      }
+    });
 };
 
 module.exports.updateAvatar = (req, res) => {
@@ -85,21 +79,14 @@ module.exports.updateAvatar = (req, res) => {
       error.status = 404;
       throw error;
     })
-    .then(() => {
-      User.findById(userId);
-    })
     .then((data) => {
-      const users = JSON.parse(data);
-      const user = users.find((item) => item.userId === userId);
-
-      if (user) {
-        res.send({ status: true, data: user });
-        return;
-      }
-
-      res.status(404).send({ message: "No existe tal usuario" });
+      res.send({ status: true, data: data });
     })
-    .catch((err) =>
-      res.status(err.status).send({ message: "Error", err, body: req.body })
-    );
+    .catch((err) => {
+      if (err.status === 404) {
+        res.status(404).send({ message: "no existe tal usuario" });
+      } else {
+        res.status(500).send({ message: "Error", err, body: req.body });
+      }
+    });
 };
